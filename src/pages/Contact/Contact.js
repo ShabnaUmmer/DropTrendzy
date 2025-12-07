@@ -60,69 +60,63 @@ class Contact extends Component {
   }
 
   handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  if (!this.validateForm()) return;
-  
-  this.setState({ isSubmitting: true, submitError: '' });
-  
-  const { formData } = this.state;
-  
-  // Function to encode form data
-  const encode = (data) => {
-    const formData = new FormData();
+    e.preventDefault();
     
-    Object.keys(data).forEach(key => {
-      // Replace & with and to avoid HTML encoding issues
-      let value = data[key];
-      if (typeof value === 'string') {
-        value = value.replace(/&/g, 'and');
+    if (!this.validateForm()) return;
+    
+    this.setState({ isSubmitting: true, submitError: '' });
+    
+    const { formData } = this.state;
+    
+    // Function to encode form data
+    const encode = (data) => {
+      return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+    };
+    
+    // Prepare form data WITH TEMPLATE
+    const formPayload = {
+      "form-name": "contact",
+      "name": formData.name,
+      "email": formData.email,
+      "subject": formData.subject.replace(/&/g, 'and'),
+      "message": formData.message,
+      "bot-field": "",
+      
+      // Test with simple template first
+      "_template": "test-template", // Use test template
+      "_replyto": formData.email,
+      "_subject": `📧 Test: ${formData.subject}`
+    };
+    
+    try {
+      console.log('📤 Submitting to Netlify Forms...');
+      
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "application/json"
+        },
+        body: encode(formPayload)
+      });
+      
+      if (response.ok) {
+        console.log('✅ Form submitted successfully!');
+        this.showSuccess();
+      } else {
+        throw new Error('Form submission failed');
       }
-      formData.append(key, value);
-    });
-    
-    return new URLSearchParams(formData).toString();
-  };
-  
-  // Prepare form data
-  const formPayload = {
-    "form-name": "contact",
-    "name": formData.name,
-    "email": formData.email,
-    "subject": formData.subject.replace(/&/g, 'and'), // Replace & with "and"
-    "message": formData.message,
-    "bot-field": "",
-    "_replyto": formData.email,
-    "_subject": `📧 DROPTRENDZY Contact: ${formData.subject.replace(/&/g, 'and')}`
-  };
-  
-  try {
-    console.log('📤 Submitting to Netlify Forms...');
-    
-    const response = await fetch("/", {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
-      },
-      body: encode(formPayload)
-    });
-    
-    if (response.ok) {
-      console.log('✅ Form submitted successfully!');
-      this.showSuccess();
-    } else {
-      throw new Error('Form submission failed');
+      
+    } catch (error) {
+      console.error('❌ Form error:', error);
+      this.setState({ 
+        isSubmitting: false, 
+        submitError: 'Failed to send message. Please email us directly at droptrendzy782@gmail.com'
+      });
     }
-    
-  } catch (error) {
-    console.error('❌ Form error:', error);
-    this.setState({ 
-      isSubmitting: false, 
-      submitError: 'Failed to send message. Please email us directly at droptrendzy782@gmail.com'
-    });
-  }
-};
+  };
   showSuccess = () => {
     this.setState({ 
       isSubmitting: false, 
