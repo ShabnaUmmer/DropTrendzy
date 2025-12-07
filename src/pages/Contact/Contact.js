@@ -59,7 +59,7 @@ class Contact extends Component {
     return Object.keys(errors).length === 0;
   }
 
-  handleSubmit = async (e) => {
+handleSubmit = async (e) => {
   e.preventDefault();
   
   if (!this.validateForm()) return;
@@ -68,57 +68,81 @@ class Contact extends Component {
   
   const { formData } = this.state;
   
-  // Use FormData API (Netlify prefers this)
+  // Create FormData object
   const formDataObj = new FormData();
-  
-  // Basic fields
-  formDataObj.append('form-name', 'contact');
   formDataObj.append('name', formData.name);
   formDataObj.append('email', formData.email);
   formDataObj.append('subject', formData.subject.replace(/&/g, 'and'));
   formDataObj.append('message', formData.message);
-  formDataObj.append('bot-field', '');
   
-  // CRITICAL: Template configuration
-  formDataObj.append('template', '/email-templates/contact.html');
-  formDataObj.append('_template', '/email-templates/contact.html');
-  formDataObj.append('email_template', 'contact');
-  
-  // Email headers
-  formDataObj.append('_replyto', formData.email);
-  formDataObj.append('_subject', `📧 DROPTRENDZY Contact: ${formData.subject}`);
-  formDataObj.append('_email_format', 'html');
-  formDataObj.append('_content_type', 'text/html');
-  
-  console.log('📤 Sending form data with template...');
+  console.log('📤 Sending to Netlify Function...');
   
   try {
-    // Submit to Netlify Forms
-    const response = await fetch("/", {
+    // Send to our custom Netlify function
+    const response = await fetch("/.netlify/functions/send-contact-email", {
       method: "POST",
-      body: formDataObj, // Send as FormData
+      body: formDataObj,
       headers: {
         'Accept': 'application/json'
       }
     });
     
-    console.log('📨 Response status:', response.status);
+    const result = await response.json();
+    console.log('📨 Function response:', result);
     
-    if (response.ok) {
-      console.log('✅ Form submitted!');
+    if (response.ok && result.success) {
+      console.log('✅ Custom email processed!');
+      
+      // Also submit to Netlify Forms for backup/record keeping
+      await this.submitToNetlifyForms(formData);
+      
       this.showSuccess();
     } else {
-      const text = await response.text();
-      console.error('❌ Response error:', text);
-      throw new Error('Form submission failed');
+      throw new Error(result.error || 'Email processing failed');
     }
     
   } catch (error) {
-    console.error('❌ Form error:', error);
+    console.error('❌ Error:', error);
     this.setState({ 
       isSubmitting: false, 
-      submitError: 'Failed to send message. Please email droptrendzy782@gmail.com directly.'
+      submitError: `
+        <div class="error-alert">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>
+            <strong>Unable to send message</strong>
+            <p>Please contact us directly:</p>
+            <a href="mailto:droptrendzy782@gmail.com?subject=${encodeURIComponent('Contact: ' + formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}" 
+               class="direct-email-btn">
+              <i class="fas fa-envelope"></i> Email: droptrendzy782@gmail.com
+            </a>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+              <i class="fas fa-phone"></i> Phone: +91 9946737794
+            </p>
+          </div>
+        </div>
+      `
     });
+  }
+};
+
+// Optional: Still submit to Netlify Forms for backup
+submitToNetlifyForms = async (formData) => {
+  const backupFormData = new FormData();
+  backupFormData.append('form-name', 'contact');
+  backupFormData.append('name', formData.name);
+  backupFormData.append('email', formData.email);
+  backupFormData.append('subject', formData.subject);
+  backupFormData.append('message', formData.message);
+  backupFormData.append('bot-field', '');
+  
+  try {
+    await fetch("/", {
+      method: "POST",
+      body: backupFormData
+    });
+    console.log('📝 Backup submitted to Netlify Forms');
+  } catch (error) {
+    console.warn('⚠️ Backup submission failed:', error);
   }
 };
   showSuccess = () => {
