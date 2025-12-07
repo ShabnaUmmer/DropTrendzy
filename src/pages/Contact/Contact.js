@@ -91,8 +91,7 @@ class Contact extends Component {
           "email": formData.email,
           "subject": formData.subject,
           "message": formData.message,
-          "_subject": `📧 DROPTRENDZY Contact: ${formData.subject}`,
-          "_replyto": formData.email
+          "bot-field": "" // Empty honeypot field
         })
       });
       
@@ -102,19 +101,23 @@ class Contact extends Component {
         console.log('✅ Form submitted successfully!');
         this.showSuccess();
       } else {
+        const text = await response.text();
+        console.error('❌ Form submission failed:', text);
         throw new Error('Form submission failed');
       }
       
     } catch (error) {
       console.error('❌ Form error:', error);
       
+      // Fallback: Direct email link
+      const mailtoLink = `mailto:droptrendzy782@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+      
       this.setState({ 
         isSubmitting: false, 
-        submitError: 'Failed to send message. Please email us directly at droptrendzy782@gmail.com'
+        submitError: `Failed to send message. <a href="${mailtoLink}" class="direct-email-link">Click here to email us directly</a>` 
       });
     }
   };
-
   showSuccess = () => {
     this.setState({ 
       isSubmitting: false, 
@@ -177,8 +180,8 @@ class Contact extends Component {
                 <form 
                   name="contact" 
                   method="POST" 
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
+                  netlify
+                  netlify-honeypot="bot-field"
                   onSubmit={this.handleSubmit}
                   className="contact-form"
                   noValidate

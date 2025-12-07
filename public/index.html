@@ -4,44 +4,22 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0f0f1e" />
-    <meta
-      name="description"
-      content="DROPTRENDZY - Curated Trends, Global Reach. Premium products delivered worldwide."
-    />
-    <meta name="keywords" content="trends, dropshipping, global, premium products">
-    <meta property="og:title" content="DROPTRENDZY | Curated Trends">
-    <meta property="og:description" content="Your premier destination for globally curated premium products.">
-    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="DROPTRENDZY - Curated Premium Products" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    
-    <!-- Font Awesome CDN - UPDATED -->
-    <link 
-      rel="stylesheet" 
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
-      crossorigin="anonymous" 
-      referrerpolicy="no-referrer"
-      onload="this.onload=null;this.rel='stylesheet';"
-    />
-    
-    <!-- Preconnect to CDN for faster loading -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>DROPTRENDZY | Curated Trends</title>
-    
-    <!-- Font Awesome fallback -->
-    <noscript>
-      <link 
-        rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-    </noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>DROPTRENDZY | Curated Premium Products</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    
+    <!-- Hidden form for Netlify Forms detection -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+    </form>
   </body>
 </html>
