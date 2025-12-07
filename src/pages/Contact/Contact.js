@@ -68,18 +68,53 @@ handleSubmit = async (e) => {
   
   const { formData } = this.state;
   
-  // Create FormData object
-  const formDataObj = new FormData();
-  formDataObj.append('name', formData.name);
-  formDataObj.append('email', formData.email);
-  formDataObj.append('subject', formData.subject.replace(/&/g, 'and'));
-  formDataObj.append('message', formData.message);
+  console.log('📤 Submitting formatted form...');
   
-  console.log('📤 Sending to Netlify Function...');
+  // Create beautifully formatted plain text for the email
+  const formattedMessage = `
+⚡ DROPTRENDZY - NEW CONTACT FORM SUBMISSION
+==============================================
+
+📋 CONTACT DETAILS:
+────────────────────
+👤 Name:    ${formData.name}
+✉️ Email:   ${formData.email}
+🏷️ Subject: ${formData.subject.replace(/&/g, 'and')}
+📅 Date:    ${new Date().toLocaleString()}
+
+💬 MESSAGE:
+────────────────────
+${formData.message}
+
+📍 OUR DETAILS:
+────────────────────
+⚡ DROPTRENDZY - Curated Premium Products
+📧 Email: droptrendzy782@gmail.com
+📞 Phone: +91 9946737794
+💬 WhatsApp: +91 9946737794
+
+🌐 Website: https://droptrendzy.netlify.app
+────────────────────
+⭐ Premium Quality • 🚚 Fast Shipping • 🔒 Secure Payment
+  `;
   
   try {
-    // Send to our custom Netlify function
-    const response = await fetch("/.netlify/functions/send-contact-email", {
+    // Submit to Netlify Forms with formatted message
+    const formDataObj = new FormData();
+    formDataObj.append('form-name', 'contact');
+    formDataObj.append('name', formData.name);
+    formDataObj.append('email', formData.email);
+    formDataObj.append('subject', formData.subject.replace(/&/g, 'and'));
+    formDataObj.append('message', formattedMessage); // Formatted!
+    formDataObj.append('bot-field', '');
+    
+    // Optional: Add some hidden branding
+    formDataObj.append('_brand', 'DROPTRENDZY');
+    formDataObj.append('_template', 'branded');
+    
+    console.log('📤 Sending formatted message...');
+    
+    const response = await fetch("/", {
       method: "POST",
       body: formDataObj,
       headers: {
@@ -87,37 +122,54 @@ handleSubmit = async (e) => {
       }
     });
     
-    const result = await response.json();
-    console.log('📨 Function response:', result);
+    console.log('📨 Response:', response.status);
     
-    if (response.ok && result.success) {
-      console.log('✅ Custom email processed!');
-      
-      // Also submit to Netlify Forms for backup/record keeping
-      await this.submitToNetlifyForms(formData);
-      
+    if (response.ok) {
+      console.log('✅ Form submitted with formatted message!');
       this.showSuccess();
     } else {
-      throw new Error(result.error || 'Email processing failed');
+      throw new Error('Form submission failed');
     }
     
   } catch (error) {
     console.error('❌ Error:', error);
+    
+    // Show nice error with direct email link
+    const mailtoSubject = encodeURIComponent(`DROPTRENDZY Contact: ${formData.subject}`);
+    const mailtoBody = encodeURIComponent(`
+DROPTRENDZY CONTACT FORM
+========================
+
+Name: ${formData.name}
+Email: ${formData.email}
+Subject: ${formData.subject}
+
+Message:
+${formData.message}
+
+---
+Sent from DROPTRENDZY Website
+    `);
+    
     this.setState({ 
       isSubmitting: false, 
       submitError: `
-        <div class="error-alert">
-          <i class="fas fa-exclamation-triangle"></i>
-          <div>
-            <strong>Unable to send message</strong>
-            <p>Please contact us directly:</p>
-            <a href="mailto:droptrendzy782@gmail.com?subject=${encodeURIComponent('Contact: ' + formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}" 
+        <div class="form-error">
+          <div class="error-header">
+            <i class="fas fa-exclamation-circle"></i>
+            <h4>Form Submission Issue</h4>
+          </div>
+          <p>Unable to submit via form. Please email us directly:</p>
+          <div class="direct-contact-options">
+            <a href="mailto:droptrendzy782@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" 
                class="direct-email-btn">
-              <i class="fas fa-envelope"></i> Email: droptrendzy782@gmail.com
+              <i class="fas fa-envelope"></i>
+              Email Directly
             </a>
-            <p style="margin-top: 10px; font-size: 0.9em;">
-              <i class="fas fa-phone"></i> Phone: +91 9946737794
-            </p>
+            <div class="contact-info">
+              <p><i class="fas fa-phone-alt"></i> +91 9946737794</p>
+              <p><i class="fab fa-whatsapp"></i> +91 9946737794</p>
+            </div>
           </div>
         </div>
       `
