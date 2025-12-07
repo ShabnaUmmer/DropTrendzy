@@ -68,46 +68,48 @@ class Contact extends Component {
   
   const { formData } = this.state;
   
-  // Encode form data for Netlify
-  const encode = (data) => {
-    return Object.keys(data)
-      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
-  };
+  // Use FormData API (Netlify prefers this)
+  const formDataObj = new FormData();
   
-  // Prepare form data WITH CORRECT TEMPLATE PATH
-  const formPayload = {
-    "form-name": "contact",
-    "name": formData.name,
-    "email": formData.email,
-    "subject": formData.subject.replace(/&/g, 'and'),
-    "message": formData.message,
-    "bot-field": "",
-    
-    // CRITICAL: Use the correct template parameter
-    "_template": "contact",
-    "_replyto": formData.email,
-    "_subject": `📧 DROPTRENDZY Contact: ${formData.subject.replace(/&/g, 'and')}`
-  };
+  // Basic fields
+  formDataObj.append('form-name', 'contact');
+  formDataObj.append('name', formData.name);
+  formDataObj.append('email', formData.email);
+  formDataObj.append('subject', formData.subject.replace(/&/g, 'and'));
+  formDataObj.append('message', formData.message);
+  formDataObj.append('bot-field', '');
   
-  console.log('📤 Form payload:', formPayload);
+  // CRITICAL: Template configuration
+  formDataObj.append('template', '/email-templates/contact.html');
+  formDataObj.append('_template', '/email-templates/contact.html');
+  formDataObj.append('email_template', 'contact');
+  
+  // Email headers
+  formDataObj.append('_replyto', formData.email);
+  formDataObj.append('_subject', `📧 DROPTRENDZY Contact: ${formData.subject}`);
+  formDataObj.append('_email_format', 'html');
+  formDataObj.append('_content_type', 'text/html');
+  
+  console.log('📤 Sending form data with template...');
   
   try {
+    // Submit to Netlify Forms
     const response = await fetch("/", {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
-      },
-      body: encode(formPayload)
+      body: formDataObj, // Send as FormData
+      headers: {
+        'Accept': 'application/json'
+      }
     });
     
+    console.log('📨 Response status:', response.status);
+    
     if (response.ok) {
-      console.log('✅ Form submitted successfully!');
+      console.log('✅ Form submitted!');
       this.showSuccess();
     } else {
-      const errorText = await response.text();
-      console.error('❌ Form submission failed:', errorText);
+      const text = await response.text();
+      console.error('❌ Response error:', text);
       throw new Error('Form submission failed');
     }
     
@@ -115,7 +117,7 @@ class Contact extends Component {
     console.error('❌ Form error:', error);
     this.setState({ 
       isSubmitting: false, 
-      submitError: 'Failed to send message. Please email us directly at droptrendzy782@gmail.com'
+      submitError: 'Failed to send message. Please email droptrendzy782@gmail.com directly.'
     });
   }
 };
