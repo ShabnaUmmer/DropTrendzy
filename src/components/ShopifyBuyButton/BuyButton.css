@@ -1,0 +1,13 @@
+.cart-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.cart-note i {
+  font-size: 0.7rem;
+}
