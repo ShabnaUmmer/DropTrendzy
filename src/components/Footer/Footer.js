@@ -1,3 +1,4 @@
+// src/components/Footer/Footer.js 
 import React, { Component } from 'react';
 import './Footer.css';
 
@@ -78,7 +79,7 @@ class Footer extends Component {
                 </a>
                 
                 <a 
-                  href="www.youtube.com/@DropTrendzy"
+                  href="https://www.youtube.com/@DropTrendzy"
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="social-link-modern youtube"
@@ -104,11 +105,10 @@ class Footer extends Component {
             <div className="footer-links-modern">
               <h4>Customer Service</h4>
               <ul>
-                <li><span onClick={() => navigateTo('shipping')}>Shipping Info</span></li>
+                <li><span onClick={() => navigateTo('shipping-policy')}>Shipping Info</span></li>
                 <li><span onClick={() => navigateTo('refund-policy')}>Refund Policy</span></li>
-                <li><span onClick={() => navigateTo('size-guide')}>Size Guide</span></li>
-                <li><span onClick={() => navigateTo('faq')}>FAQ</span></li>
-                <li><span onClick={() => navigateTo('privacy')}>Privacy Policy</span></li>
+                <li><span onClick={() => navigateTo('privacy-policy')}>Privacy Policy</span></li>
+                <li><span onClick={() => navigateTo('terms-conditions')}>Terms & Conditions</span></li>
               </ul>
             </div>
 
@@ -204,9 +204,9 @@ class Footer extends Component {
                 <span>2024 DROPTRENDZY. All rights reserved.</span>
               </div>
               <div className="copyright-links">
-                <span onClick={() => navigateTo('privacy')}>Privacy Policy</span>
+                <span onClick={() => navigateTo('privacy-policy')}>Privacy Policy</span>
                 <span className="divider">•</span>
-                <span onClick={() => navigateTo('terms')}>Terms of Service</span>
+                <span onClick={() => navigateTo('terms-conditions')}>Terms of Service</span>
                 <span className="divider">•</span>
                 <span onClick={() => navigateTo('refund-policy')}>Refund Policy</span>
               </div>

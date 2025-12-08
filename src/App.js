@@ -1,4 +1,4 @@
-// src/App.js (UPDATED)
+// src/App.js 
 import React, { Component } from 'react';
 import { shopifyClient } from './shopify/shopifyClient';
 import Navbar from './components/Navbar/Navbar';
@@ -10,8 +10,11 @@ import Contact from './pages/Contact/Contact';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import Wishlist from './pages/Wishlist/Wishlist';
 import RefundPolicy from './pages/RefundPolicy/RefundPolicy';
-import CartPage from './pages/CartPage/CartPage'; // Add this import
-import Cart from './components/Cart/Cart'; // Add cart component
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions/TermsConditions';
+import ShippingPolicy from './pages/ShippingPolicy/ShippingPolicy';
+import CartPage from './pages/CartPage/CartPage';
+import Cart from './components/Cart/Cart';
 import './App.css';
 
 class App extends Component {
@@ -24,7 +27,7 @@ class App extends Component {
       isLoading: true,
       error: null,
       wishlistCount: 0,
-      cartItems: [], // Add cart state here
+      cartItems: [],
       cartOpen: false,
       cartItemCount: 0
     };
@@ -175,7 +178,6 @@ class App extends Component {
 
   // Show notification
   showCartNotification = (message, type = 'success') => {
-    // Create and show notification
     const notification = document.createElement('div');
     notification.className = `cart-notification ${type}`;
     notification.innerHTML = `
@@ -187,7 +189,6 @@ class App extends Component {
     
     document.body.appendChild(notification);
     
-    // Add styles if needed
     if (!document.querySelector('#cart-notification-styles')) {
       const style = document.createElement('style');
       style.id = 'cart-notification-styles';
@@ -235,7 +236,7 @@ class App extends Component {
     }, 3000);
   };
 
-  // Load products function (existing)
+  // Load products function
   loadProductsFromShopify = async () => {
     try {
       this.setState({ isLoading: true, error: null });
@@ -330,7 +331,7 @@ class App extends Component {
           <Products 
             products={products}
             navigateTo={this.navigateTo}
-            addToCart={this.addToCart} // Pass addToCart function
+            addToCart={this.addToCart}
           />
         );
       
@@ -339,7 +340,7 @@ class App extends Component {
           <ProductDetail 
             productId={pageData}
             navigateTo={this.navigateTo}
-            addToCart={this.addToCart} // Pass addToCart function
+            addToCart={this.addToCart}
           />
         );
       
@@ -348,11 +349,11 @@ class App extends Component {
           <Wishlist 
             navigateTo={this.navigateTo}
             updateWishlistCount={this.updateWishlistCount}
-            addToCart={this.addToCart} // Pass addToCart function
+            addToCart={this.addToCart}
           />
         );
       
-      case 'cart': // Add cart page
+      case 'cart':
         return (
           <CartPage
             cartItems={cartItems}
@@ -374,6 +375,15 @@ class App extends Component {
       case 'refund-policy':
         return <RefundPolicy navigateTo={this.navigateTo} />;
       
+      case 'privacy-policy':
+        return <PrivacyPolicy navigateTo={this.navigateTo} />;
+      
+      case 'terms-conditions':
+        return <TermsConditions navigateTo={this.navigateTo} />;
+      
+      case 'shipping-policy':
+        return <ShippingPolicy navigateTo={this.navigateTo} />;
+      
       case 'home':
       default:
         return (
@@ -382,7 +392,7 @@ class App extends Component {
             navigateTo={this.navigateTo}
             wishlistCount={this.state.wishlistCount}
             updateWishlistCount={this.updateWishlistCount}
-            addToCart={this.addToCart} // Pass addToCart function
+            addToCart={this.addToCart}
           />
         );
     }
@@ -403,8 +413,8 @@ class App extends Component {
           navigateTo={this.navigateTo} 
           currentPage={currentPage}
           wishlistCount={this.state.wishlistCount}
-          cartItemCount={cartItemCount} // Pass cart count to navbar
-          toggleCart={this.toggleCart} // Pass toggle function
+          cartItemCount={cartItemCount}
+          toggleCart={this.toggleCart}
         />
         
         {/* Cart Drawer Component */}
