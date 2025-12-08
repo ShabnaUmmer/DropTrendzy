@@ -1,5 +1,6 @@
-// pages/Contact/Contact.js
+// src/pages/Contact/Contact.js
 import React, { Component } from 'react';
+import emailjs from '@emailjs/browser';
 import './Contact.css';
 
 class Contact extends Component {
@@ -17,10 +18,17 @@ class Contact extends Component {
       isSubmitted: false,
       submitError: ''
     };
+    
+    // Initialize EmailJS with environment variable
+    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   }
 
   componentDidMount() {
-    // Initialize any necessary setup
+    console.log('📧 EmailJS initialized:', {
+      publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY ? 'Set' : 'Missing',
+      serviceId: process.env.REACT_APP_EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
+      templateId: process.env.REACT_APP_EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing'
+    });
   }
 
   handleInputChange = (e) => {
@@ -59,151 +67,94 @@ class Contact extends Component {
     return Object.keys(errors).length === 0;
   }
 
-handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  if (!this.validateForm()) return;
-  
-  this.setState({ isSubmitting: true, submitError: '' });
-  
-  const { formData } = this.state;
-  
-  console.log('📤 Submitting formatted form...');
-  
-  // Create beautifully formatted plain text for the email
-  const formattedMessage = `
-⚡ DROPTRENDZY - NEW CONTACT FORM SUBMISSION
-==============================================
-
-📋 CONTACT DETAILS:
-────────────────────
-👤 Name:    ${formData.name}
-✉️ Email:   ${formData.email}
-🏷️ Subject: ${formData.subject.replace(/&/g, 'and')}
-📅 Date:    ${new Date().toLocaleString()}
-
-💬 MESSAGE:
-────────────────────
-${formData.message}
-
-📍 OUR DETAILS:
-────────────────────
-⚡ DROPTRENDZY - Curated Premium Products
-📧 Email: droptrendzy782@gmail.com
-📞 Phone: +91 9946737794
-💬 WhatsApp: +91 9946737794
-
-🌐 Website: https://droptrendzy.netlify.app
-────────────────────
-⭐ Premium Quality • 🚚 Fast Shipping • 🔒 Secure Payment
-  `;
-  
-  try {
-    // Submit to Netlify Forms with formatted message
-    const formDataObj = new FormData();
-    formDataObj.append('form-name', 'contact');
-    formDataObj.append('name', formData.name);
-    formDataObj.append('email', formData.email);
-    formDataObj.append('subject', formData.subject.replace(/&/g, 'and'));
-    formDataObj.append('message', formattedMessage); // Formatted!
-    formDataObj.append('bot-field', '');
+  handleSubmit = async (e) => {
+    e.preventDefault();
     
-    // Optional: Add some hidden branding
-    formDataObj.append('_brand', 'DROPTRENDZY');
-    formDataObj.append('_template', 'branded');
+    if (!this.validateForm()) return;
     
-    console.log('📤 Sending formatted message...');
+    this.setState({ isSubmitting: true, submitError: '' });
     
-    const response = await fetch("/", {
-      method: "POST",
-      body: formDataObj,
-      headers: {
-        'Accept': 'application/json'
+    const { formData } = this.state;
+    
+    console.log('📤 Starting EmailJS submission...');
+    
+    try {
+      // Validate environment variables
+      if (!process.env.REACT_APP_EMAILJS_SERVICE_ID || 
+          !process.env.REACT_APP_EMAILJS_TEMPLATE_ID) {
+        throw new Error('EmailJS configuration missing.');
       }
-    });
-    
-    console.log('📨 Response:', response.status);
-    
-    if (response.ok) {
-      console.log('✅ Form submitted with formatted message!');
-      this.showSuccess();
-    } else {
-      throw new Error('Form submission failed');
-    }
-    
-  } catch (error) {
-    console.error('❌ Error:', error);
-    
-    // Show nice error with direct email link
-    const mailtoSubject = encodeURIComponent(`DROPTRENDZY Contact: ${formData.subject}`);
-    const mailtoBody = encodeURIComponent(`
-DROPTRENDZY CONTACT FORM
-========================
-
-Name: ${formData.name}
-Email: ${formData.email}
-Subject: ${formData.subject}
-
-Message:
-${formData.message}
-
----
-Sent from DROPTRENDZY Website
-    `);
-    
-    this.setState({ 
-      isSubmitting: false, 
-      submitError: `
-        <div class="form-error">
-          <div class="error-header">
-            <i class="fas fa-exclamation-circle"></i>
-            <h4>Form Submission Issue</h4>
-          </div>
-          <p>Unable to submit via form. Please email us directly:</p>
-          <div class="direct-contact-options">
-            <a href="mailto:droptrendzy782@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" 
-               class="direct-email-btn">
-              <i class="fas fa-envelope"></i>
-              Email Directly
-            </a>
-            <div class="contact-info">
-              <p><i class="fas fa-phone-alt"></i> +91 9946737794</p>
-              <p><i class="fab fa-whatsapp"></i> +91 9946737794</p>
+      
+      // Send email using EmailJS - ADD THE MISSING VARIABLES
+      const result = await emailjs.send(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+        {
+          // ⭐ CRITICAL: These must match your template variables
+          from_name: formData.name,                    // For "From Name" in template
+          from_email: formData.email,                  // For "From Email" in template
+          email: formData.email,                       // For "Reply To" in template
+          name: formData.name,                         // For display in email body
+          subject: formData.subject.replace(/&/g, 'and'),
+          message: formData.message,
+          
+          // Additional template variables
+          date: new Date().toLocaleString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          }),
+          timestamp: new Date().toISOString(),
+          website: 'DROPTRENDZY',
+          website_url: 'https://droptrendzy.netlify.app'
+        }
+      );
+      
+      console.log('✅ EmailJS result:', result);
+      
+      if (result.status === 200) {
+        console.log('🎉 Email sent successfully!');
+        this.showSuccess();
+      } else {
+        throw new Error(`Email sending failed with status: ${result.status}`);
+      }
+      
+    } catch (error) {
+      console.error('❌ EmailJS error:', error);
+      
+      // Fallback email link
+      const mailtoSubject = encodeURIComponent(`DROPTRENDZY Contact: ${formData.subject}`);
+      const mailtoBody = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+      
+      this.setState({ 
+        isSubmitting: false, 
+        submitError: `
+          <div class="error-alert">
+            <div class="error-header">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h4>Unable to Send Message</h4>
             </div>
+            <p>Please contact us directly:</p>
+            <a href="mailto:droptrendzy782@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}" 
+              class="direct-email-btn">
+              <i class="fas fa-envelope"></i>
+              Click to Email Directly
+            </a>
           </div>
-        </div>
-      `
-    });
-  }
-};
-
-// Optional: Still submit to Netlify Forms for backup
-submitToNetlifyForms = async (formData) => {
-  const backupFormData = new FormData();
-  backupFormData.append('form-name', 'contact');
-  backupFormData.append('name', formData.name);
-  backupFormData.append('email', formData.email);
-  backupFormData.append('subject', formData.subject);
-  backupFormData.append('message', formData.message);
-  backupFormData.append('bot-field', '');
-  
-  try {
-    await fetch("/", {
-      method: "POST",
-      body: backupFormData
-    });
-    console.log('📝 Backup submitted to Netlify Forms');
-  } catch (error) {
-    console.warn('⚠️ Backup submission failed:', error);
-  }
-};
+        `
+      });
+    }
+  };
   showSuccess = () => {
     this.setState({ 
       isSubmitting: false, 
       isSubmitted: true,
       formData: { name: '', email: '', subject: '', message: '' }
     });
-  }
+  };
 
   render() {
     const { formData, errors, isSubmitting, isSubmitted, submitError } = this.state;
@@ -243,56 +194,28 @@ submitToNetlifyForms = async (formData) => {
                   </div>
                   <h3>Message Sent Successfully!</h3>
                   <p>Thank you for contacting DROPTRENDZY.</p>
-                  <p>Your message has been delivered to our team.</p>
+                  <p>We've received your message and will respond within 24 hours.</p>
                   <div className="confirmation-details">
                     <p><i className="fas fa-user"></i> From: {formData.name}</p>
                     <p><i className="fas fa-envelope"></i> Email: {formData.email}</p>
+                    <p><i className="fas fa-clock"></i> Time: {new Date().toLocaleString()}</p>
                   </div>
                   <button 
                     className="btn-modern"
                     onClick={() => this.setState({ isSubmitted: false })}
                   >
+                    <i className="fas fa-plus"></i>
                     Send Another Message
                   </button>
                 </div>
               ) : (
                 <form 
-                  name="contact" 
-                  method="POST" 
-                  netlify
-                  netlify-honeypot="bot-field"
                   onSubmit={this.handleSubmit}
                   className="contact-form"
                   noValidate
                 >
-                  {/* Netlify Hidden Fields */}
-                  <input type="hidden" name="form-name" value="contact" />
-                  <input type="hidden" name="_subject" value="New DROPTRENDZY Contact Form Submission" />
-                  
-                  {/* Honeypot Field - Hidden from users */}
-                  <div className="hidden">
-                    <label>
-                      Don't fill this out if you're human: 
-                      <input name="bot-field" />
-                    </label>
-                  </div>
-                  
                   {submitError && (
-                    <div className="error-message">
-                      <div className="error-icon">
-                        <i className="fas fa-exclamation-triangle"></i>
-                      </div>
-                      <div className="error-content">
-                        <h4>Unable to Send Message</h4>
-                        <p>{submitError}</p>
-                        <div className="error-solution">
-                          <p><strong>Quick fix:</strong> Email us directly at:</p>
-                          <a href="mailto:droptrendzy782@gmail.com" className="direct-email-link">
-                            <i className="fas fa-envelope"></i> droptrendzy782@gmail.com
-                          </a>
-                        </div>
-                      </div>
-                    </div>
+                    <div dangerouslySetInnerHTML={{ __html: submitError }} />
                   )}
                   
                   <div className="form-row">
@@ -350,9 +273,10 @@ submitToNetlifyForms = async (formData) => {
                       <option value="General Inquiry">General Inquiry</option>
                       <option value="Order Support">Order Support</option>
                       <option value="Shipping Question">Shipping Question</option>
-                      <option value="Returns & Exchanges">Returns & Exchanges</option>
+                      <option value="Returns and Exchanges">Returns and Exchanges</option>
                       <option value="Wholesale Inquiry">Wholesale Inquiry</option>
                       <option value="Refund Policy">Refund Policy Question</option>
+                      <option value="Product Suggestion">Product Suggestion</option>
                       <option value="Other">Other</option>
                     </select>
                     {errors.subject && <span className="error-text">{errors.subject}</span>}
@@ -404,7 +328,7 @@ submitToNetlifyForms = async (formData) => {
                   
                   <div className="form-note">
                     <i className="fas fa-shield-alt"></i>
-                    Secured by Netlify Forms • No third-party branding
+                    Secured by EmailJS • Your data is protected
                   </div>
                 </form>
               )}
@@ -434,8 +358,8 @@ submitToNetlifyForms = async (formData) => {
                   </div>
                   <div className="method-info">
                     <h4>Call Us</h4>
-                    <p>+92 9946737794</p>
-                    <span>Mon-Fri from 9am to 6pm EST</span>
+                    <p>+91 9946737794</p>
+                    <span>Mon-Fri from 9am to 6pm IST</span>
                   </div>
                 </div>
 
