@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy - DROPTRENDZY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .policy-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(0, 184, 148, 0.3);
+        }
+        
+        h1 {
+            background: linear-gradient(45deg, #00b894, #55efc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .policy-date {
+            color: #b8b8d1;
+            font-size: 0.9em;
+        }
+        
+        .policy-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section-header i {
+            color: #00b894;
+            font-size: 1.5em;
+        }
+        
+        h2 {
+            color: #ffffff;
+            font-size: 1.5em;
+        }
+        
+        h3 {
+            color: #ffffff;
+            margin: 20px 0 10px;
+            font-size: 1.2em;
+        }
+        
+        p {
+            color: #b8b8d1;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            color: #b8b8d1;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .warning-banner {
+            background: rgba(255, 107, 107, 0.15);
+            border: 2px solid #ff6b6b;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .warning-banner i {
+            font-size: 2.5em;
+            color: #ff6b6b;
+        }
+        
+        .highlight {
+            color: #00b894;
+            font-weight: 600;
+        }
+        
+        .danger {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .guideline-step {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #00b894;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .process-step {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            min-width: 150px;
+        }
+        
+        .process-step i {
+            font-size: 2em;
+            color: #00b894;
+            margin-bottom: 10px;
+        }
+        
+        .arrow {
+            color: #00b894;
+            font-size: 1.5em;
+        }
+        
+        .contact-box {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 4px solid #00b894;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-link:hover {
+            background: rgba(0, 184, 148, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .contact-link i {
+            color: #00b894;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .guidelines-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .contact-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="policy-header">
+            <h1>Refund & Return Policy</h1>
+            <p class="policy-date">Last Updated: January 2024</p>
+        </div>
+        
+        <div class="warning-banner">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <h3><span class="danger">⚠️ UNBOXING VIDEO IS MANDATORY</span></h3>
+                <p>For any damage or return claims, an unboxing video is required. Without proper video evidence, we cannot process refunds or replacements.</p>
+            </div>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <i class="fas fa-list-ol"></i>
+                <h2>Refund Eligibility</h2>
+            </div>
+            
+            <h3>You Can Request a Refund If:</h3>
+            <ul>
+                <li>Product arrives <span class="danger">damaged or defective</span></li>
+                <li>Wrong item shipped (different from what you ordered)</li>
+                <li>Product doesn't match description</li>
+                <li>Package never arrived (lost in transit)</li>
+            </ul>
+            
+            <h3>Not Eligible for Refund:</h3>
+            <ul>
+                <li>Change of mind or buyer's remorse</li>
+                <li>Product doesn't fit (unless defective)</li>
+                <li>Minor cosmetic imperfections not affecting function</li>
+                <li>Products used, altered, or damaged after delivery</li>
+                <li>No unboxing video provided for damage claims</li>
+            </ul>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <i class="fas fa-video"></i>
+                <h2>Unboxing Video Guidelines</h2>
+            </div>
+            
+            <div class="guidelines-grid">
+                <div class="guideline-step">
+                    <div class="step-number">1</div>
+                    <h4>Label Verification</h4>
+                    <p>Clear images of parcel label showing shipping details</p>
+                </div>
+                
+                <div class="guideline-step">
+                    <div class="step-number">2</div>
+                    <h4>360° View</h4>
+                    <p>Complete 360-degree view of parcel before opening</p>
+                </div>
+                
+                <div class="guideline-step">
+                    <div class="step-number">3</div>
+                    <h4>Complete Unpacking</h4>
+                    <p>Unpack from edge to edge showing all components</p>
+                </div>
+                
+                <div class="guideline-step">
+                    <div class="step-number">4</div>
+                    <h4>Damage Documentation</h4>
+                    <p>Immediately show any physical damage or usage marks</p>
+                </div>
+                
+                <div class="guideline-step">
+                    <div class="step-number">5</div>
+                    <h4>Single Unedited Clip</h4>
+                    <p>One continuous video without edits or cuts</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 20px;">
+                <i class="fas fa-info-circle"></i>
+                Watch our <a href="https://www.youtube.com/watch?v=AIlUdkK1YME" target="_blank" style="color: #00b894;">sample unboxing video</a> for reference
+            </p>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <i class="fas fa-sync-alt"></i>
+                <h2>Refund Process Timeline</h2>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">
+                    <i class="fas fa-video"></i>
+                    <h4>1. Record Video</h4>
+                    <p>Within 24 hours of delivery</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="process-step">
+                    <i class="fas fa-envelope"></i>
+                    <h4>2. Email Support</h4>
+                    <p>Send video to droptrendzy782@gmail.com</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="process-step">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>3. Verification</h4>
+                    <p>48-hour review period</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="process-step">
+                    <i class="fas fa-money-check-alt"></i>
+                    <h4>4. Refund Issued</h4>
+                    <p>Within 5-7 business days</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <i class="fas fa-history"></i>
+                <h2>Refund Timeframes</h2>
+            </div>
+            
+            <h3>Refund Methods & Time</h3>
+            <ul>
+                <li><span class="highlight">Credit/Debit Cards:</span> 5-10 business days</li>
+                <li><span class="highlight">UPI/Net Banking:</span> 3-5 business days</li>
+                <li><span class="highlight">PayPal:</span> 1-3 business days</li>
+                <li><span class="highlight">Store Credit:</span> Instant (for future purchases)</li>
+            </ul>
+            
+            <h3>Return Shipping</h3>
+            <ul>
+                <li>We provide prepaid return labels for defective items</li>
+                <li>Customer pays return shipping for change of mind</li>
+                <li>Return within 3 days of approval</li>
+            </ul>
+        </div>
+        
+        <div class="policy-section">
+            <div class="section-header">
+                <i class="fas fa-exchange-alt"></i>
+                <h2>Replacements</h2>
+            </div>
+            
+            <h3>When We Offer Replacements:</h3>
+            <ul>
+                <li>Defective product (if same item is in stock)</li>
+                <li>Wrong item shipped</li>
+                <li>Damaged during shipping</li>
+            </ul>
+            
+            <h3>Replacement Process:</h3>
+            <ol>
+                <li>Submit unboxing video via email</li>
+                <li>We approve within 48 hours</li>
+                <li>We ship replacement immediately</li>
+                <li>You return defective item (prepaid label provided)</li>
+            </ol>
+            
+            <p><span class="highlight">Note:</span> Replacements are subject to stock availability. If out of stock, we'll issue a refund.</p>
+        </div>
+        
+        <div class="contact-box">
+            <h3>Need Help With Refunds?</h3>
+            <p>Contact our refund support team:</p>
+            
+            <div class="contact-links">
+                <a href="mailto:droptrendzy782@gmail.com?subject=Refund%20Request" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    Email Refund Support
+                </a>
+                <a href="tel:+919946737794" class="contact-link">
+                    <i class="fas fa-phone"></i>
+                    +91 9946737794
+                </a>
+                <a href="https://wa.me/919946737794?text=Hi,%20I%20have%20a%20refund%20question" target="_blank" class="contact-link">
+                    <i class="fab fa-whatsapp"></i>
+                    WhatsApp Support
+                </a>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9em; color: #8a8aa3;">
+                <i class="fas fa-clock"></i>
+                Response time: Within 24 hours for refund inquiries
+            </p>
+        </div>
+    </div>
+</body>
+</html>

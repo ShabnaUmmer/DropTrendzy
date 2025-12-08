@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Policy - DROPTRENDZY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .shipping-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(79, 172, 254, 0.3);
+        }
+        
+        h1 {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .shipping-date {
+            color: #b8b8d1;
+            font-size: 0.9em;
+        }
+        
+        .shipping-subtitle {
+            color: #b8b8d1;
+            max-width: 600px;
+            margin: 10px auto 0;
+        }
+        
+        .shipping-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section-header i {
+            color: #4facfe;
+            font-size: 1.5em;
+        }
+        
+        h2 {
+            color: #ffffff;
+            font-size: 1.5em;
+        }
+        
+        h3 {
+            color: #ffffff;
+            margin: 20px 0 10px;
+            font-size: 1.2em;
+        }
+        
+        h4 {
+            color: #ffffff;
+            margin: 15px 0 8px;
+            font-size: 1.1em;
+        }
+        
+        p {
+            color: #b8b8d1;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            color: #b8b8d1;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-card {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .info-card i {
+            font-size: 2em;
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            color: #4facfe;
+            font-weight: 600;
+        }
+        
+        .shipping-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .shipping-table th {
+            background: rgba(79, 172, 254, 0.2);
+            color: #ffffff;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .shipping-table td {
+            color: #b8b8d1;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .shipping-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .free-shipping-banner {
+            background: rgba(79, 172, 254, 0.15);
+            border: 2px solid #4facfe;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .free-shipping-banner i {
+            font-size: 2.5em;
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+        
+        .contact-box {
+            background: rgba(79, 172, 254, 0.1);
+            border-left: 4px solid #4facfe;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-link:hover {
+            background: rgba(79, 172, 254, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .contact-link i {
+            color: #4facfe;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+            }
+            
+            .shipping-table {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="shipping-header">
+            <h1>Shipping Policy</h1>
+            <p class="shipping-date">Last Updated: January 2024</p>
+            <p class="shipping-subtitle">Fast, reliable delivery to your doorstep worldwide</p>
+        </div>
+        
+        <div class="free-shipping-banner">
+            <i class="fas fa-gift"></i>
+            <h3>🎉 FREE STANDARD SHIPPING ON ORDERS OVER $100!</h3>
+            <p>Free express shipping on orders over $200</p>
+        </div>
+        
+        <div class="shipping-section">
+            <div class="section-header">
+                <i class="fas fa-clock"></i>
+                <h2>Order Processing Time</h2>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-box"></i>
+                    <h4>Standard Processing</h4>
+                    <p><span class="highlight">1-2 Business Days</span></p>
+                    <p>Most orders are processed within 24 hours</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Weekend Orders</h4>
+                    <p><span class="highlight">Next Business Day</span></p>
+                    <p>Weekend orders processed on Monday</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h4>Holiday Periods</h4>
+                    <p><span class="highlight">Extended Processing</span></p>
+                    <p>May take 3-5 days during peak seasons</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="shipping-section">
+            <div class="section-header">
+                <i class="fas fa-shipping-fast"></i>
+                <h2>Shipping Methods & Time</h2>
+            </div>
+            
+            <h3>Standard Shipping</h3>
+            <ul>
+                <li><span class="highlight">Delivery Time:</span> 7-14 business days</li>
+                <li><span class="highlight">Cost:</span> Calculated at checkout</li>
+                <li><span class="highlight">Tracking:</span> Yes (provided via email)</li>
+                <li><span class="highlight">Insurance:</span> Included up to $100</li>
+            </ul>
+            
+            <h3>Express Shipping</h3>
+            <ul>
+                <li><span class="highlight">Delivery Time:</span> 3-7 business days</li>
+                <li><span class="highlight">Cost:</span> $15.99 flat rate</li>
+                <li><span class="highlight">Tracking:</span> Real-time updates</li>
+                <li><span class="highlight">Insurance:</span> Included up to $500</li>
+            </ul>
+        </div>
+        
+        <div class="shipping-section">
+            <div class="section-header">
+                <i class="fas fa-money-bill-wave"></i>
+                <h2>Shipping Rates</h2>
+            </div>
+            
+            <table class="shipping-table">
+                <tr>
+                    <th>Order Value</th>
+                    <th>Standard Shipping</th>
+                    <th>Express Shipping</th>
+                </tr>
+                <tr>
+                    <td>Under $50</td>
+                    <td>$5.99</td>
+                    <td>$15.99</td>
+                </tr>
+                <tr>
+                    <td>$50 - $100</td>
+                    <td>$3.99</td>
+                    <td>$15.99</td>
+                </tr>
+                <tr>
+                    <td>$100 - $200</td>
+                    <td><span class="highlight">FREE</span></td>
+                    <td>$10.99</td>
+                </tr>
+                <tr>
+                    <td>Over $200</td>
+                    <td><span class="highlight">FREE</span></td>
+                    <td><span class="highlight">FREE</span></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="shipping-section">
+            <div class="section-header">
+                <i class="fas fa-globe-americas"></i>
+                <h2>Delivery Areas</h2>
+            </div>
+            
+            <h3>Domestic (India)</h3>
+            <ul>
+                <li>Major cities: 5-10 business days</li>
+                <li>Tier 2/3 cities: 8-14 business days</li>
+                <li>Remote areas: 10-21 business days</li>
+            </ul>
+            
+            <h3>International</h3>
+            <ul>
+                <li>USA/Canada: 10-20 business days</li>
+                <li>Europe: 12-25 business days</li>
+                <li>Australia/NZ: 15-30 business days</li>
+                <li>Other regions: 20-40 business days</li>
+            </ul>
+            
+            <p style="color: #ff6b6b; margin-top: 15px;">
+                <i class="fas fa-exclamation-circle"></i>
+                We cannot ship to PO Boxes, APO/FPO addresses, or certain restricted countries.
+            </p>
+        </div>
+        
+        <div class="shipping-section">
+            <div class="section-header">
+                <i class="fas fa-map-marker-alt"></i>
+                <h2>Order Tracking</h2>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Order Confirmation</h4>
+                    <p>Immediate email with order details</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-box-open"></i>
+                    <h4>Processing Update</h4>
+                    <p>Email when order is being prepared</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-truck"></i>
+                    <h4>Shipping Confirmation</h4>
+                    <p>Email with tracking number & link</p>
+                </div>
+                
+                <div class="info-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Delivery Updates</h4>
+                    <p>SMS/email notifications on status</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="shipping-section">
+            <div class="section-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Delivery Issues</h2>
+            </div>
+            
+            <h3>Lost Packages</h3>
+            <p>Contact us within 30 days of estimated delivery. We'll initiate a trace or reship.</p>
+            
+            <h3>Failed Delivery</h3>
+            <p>If you're not available, carrier will leave notice. Follow their instructions for redelivery.</p>
+            
+            <h3>Damaged Package</h3>
+            <p>Document damage with photos/videos immediately. Email us evidence for replacement.</p>
+        </div>
+        
+        <div class="contact-box">
+            <h3>Shipping Questions?</h3>
+            <p>Contact our shipping support team:</p>
+            
+            <div class="contact-links">
+                <a href="mailto:droptrendzy782@gmail.com?subject=Shipping%20Inquiry" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    Email Shipping Support
+                </a>
+                <a href="tel:+919946737794" class="contact-link">
+                    <i class="fas fa-phone"></i>
+                    +91 9946737794
+                </a>
+                <a href="https://wa.me/919946737794?text=Hi,%20I%20have%20a%20shipping%20question" target="_blank" class="contact-link">
+                    <i class="fab fa-whatsapp"></i>
+                    WhatsApp Support
+                </a>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9em; color: #8a8aa3;">
+                <i class="fas fa-clock"></i>
+                Response Time: Within 24 hours (Mon-Fri, 9AM-6PM IST)
+            </p>
+        </div>
+    </div>
+</body>
+</html>
