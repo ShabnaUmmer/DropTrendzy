@@ -1,7 +1,7 @@
-// src/pages/ProductDetail/ProductDetail.js
+// src/pages/ProductDetail/ProductDetail.js (UPDATED)
 import React, { Component } from 'react';
 import { shopifyClient } from '../../shopify/shopifyClient';
-import ShopifyBuyButton from '../../shopify/BuyButton';
+import ShopifyBuyButton from '../../shopify/BuyButton'; // Import the BuyButton
 import './ProductDetail.css';
 
 class ProductDetail extends Component {
@@ -15,7 +15,7 @@ class ProductDetail extends Component {
       isLoading: true,
       error: null,
       isInWishlist: false,
-      debugInfo: null // Added for debugging
+      debugInfo: null
     };
   }
 
@@ -50,7 +50,6 @@ class ProductDetail extends Component {
 
       console.log('🔄 Loading product:', productId);
       
-      // First test the connection
       const connectionTest = await shopifyClient.testConnection();
       console.log('Connection test:', connectionTest);
       
@@ -58,7 +57,6 @@ class ProductDetail extends Component {
         throw new Error(`Shopify connection failed: ${connectionTest.message}`);
       }
 
-      // Get the product
       console.log('📦 Fetching product details...');
       const data = await shopifyClient.getProductByHandle(productId);
       console.log('📦 Product data received:', data);
@@ -69,7 +67,6 @@ class ProductDetail extends Component {
       
       if (!data.productByHandle) {
         console.warn('Product not found by handle. Trying direct ID lookup...');
-        // Try getting all products and filtering
         const allProducts = await shopifyClient.getProducts(50);
         console.log('All products:', allProducts);
         
@@ -110,7 +107,6 @@ class ProductDetail extends Component {
     console.log('Product images count:', product.images?.edges?.length || 0);
     console.log('Product variants count:', product.variants?.edges?.length || 0);
 
-    // Set default variant (first available variant or first variant)
     const defaultVariant = product.variants?.edges?.[0]?.node || null;
     
     this.setState({
@@ -129,40 +125,31 @@ class ProductDetail extends Component {
     this.setState({ isInWishlist });
   };
 
-  // ADD THIS METHOD - Fix for truncated descriptions
   getFullDescription = (product) => {
     if (!product) {
       return '<p class="no-description">No description available.</p>';
     }
 
-    // Try HTML description first
     if (product.descriptionHtml && product.descriptionHtml.length > 50) {
-      // Check if it ends with "..."
       if (product.descriptionHtml.endsWith('...') || product.descriptionHtml.includes('...')) {
         console.log('DescriptionHtml appears truncated');
-        // Fall back to plain description
         return this.formatPlainDescription(product.description);
       }
       return product.descriptionHtml;
     }
 
-    // Try plain text description
     if (product.description && product.description.length > 0) {
       return this.formatPlainDescription(product.description);
     }
 
-    // Fallback
     return '<p class="no-description">No description available.</p>';
   };
 
-  // Helper method to format plain text as HTML
   formatPlainDescription = (text) => {
     if (!text) return '<p class="no-description">No description available.</p>';
     
-    // Remove any trailing "..."
     let cleanText = text.replace(/\.\.\.$/, '');
     
-    // Split by newlines and wrap in paragraphs
     const paragraphs = cleanText
       .split('\n')
       .filter(line => line.trim().length > 0)
@@ -183,12 +170,10 @@ class ProductDetail extends Component {
     const wishlist = JSON.parse(localStorage.getItem('droptrendzy_wishlist') || '[]');
     
     if (isInWishlist) {
-      // Remove from wishlist
       const updatedWishlist = wishlist.filter(item => item.handle !== productId);
       localStorage.setItem('droptrendzy_wishlist', JSON.stringify(updatedWishlist));
       this.setState({ isInWishlist: false });
     } else {
-      // Add to wishlist
       const wishlistItem = {
         id: product?.id,
         handle: productId,
@@ -203,7 +188,6 @@ class ProductDetail extends Component {
       this.setState({ isInWishlist: true });
     }
     
-    // Update wishlist count in parent
     if (this.props.updateWishlistCount) {
       this.props.updateWishlistCount();
     }
@@ -235,6 +219,19 @@ class ProductDetail extends Component {
   formatPrice = (amount) => {
     if (!amount) return '0.00';
     return parseFloat(amount).toFixed(2);
+  };
+
+  handleAddToCart = () => {
+    const { product, selectedVariant, quantity } = this.state;
+    const { addToCart } = this.props;
+    
+    if (!product || !selectedVariant) {
+      return;
+    }
+    
+    if (addToCart) {
+      addToCart(product, selectedVariant.id, quantity);
+    }
   };
 
   handleRetry = () => {
@@ -476,13 +473,16 @@ class ProductDetail extends Component {
             </div>
 
             <div className="buy-button-section">
+              {/* Replace custom button with ShopifyBuyButton */}
               <ShopifyBuyButton
-                productId={product.id}
+                product={product}
                 variantId={selectedVariant?.id}
                 quantity={quantity}
                 label={selectedVariant?.availableForSale ? "Add to Cart" : "Out of Stock"}
                 price={this.formatPrice(price)}
                 disabled={!selectedVariant?.availableForSale}
+                onAddToCart={this.handleAddToCart} // This calls props.addToCart
+                className="product-detail-buy-button"
               />
             </div>
 

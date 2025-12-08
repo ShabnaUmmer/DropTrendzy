@@ -1,4 +1,4 @@
-// src/components/Navbar/Navbar.js
+// src/components/Navbar/Navbar.js (UPDATED)
 import React, { Component } from 'react';
 import './Navbar.css';
 
@@ -62,7 +62,12 @@ class Navbar extends Component {
 
   render() {
     const { isMenuOpen, searchQuery, hoveredLink } = this.state;
-    const { wishlistCount = 0, currentPage = 'home' } = this.props;
+    const { 
+      wishlistCount = 0, 
+      currentPage = 'home', 
+      cartItemCount = 0, 
+      toggleCart 
+    } = this.props;
 
     const navItems = [
       { id: 'home', icon: 'fas fa-home', label: 'Home' },
@@ -103,22 +108,43 @@ class Navbar extends Component {
               <div className={`nav-links-modern ${isMenuOpen ? 'active' : ''}`}>
                 {navItems.map((item) => (
                   <div key={item.id} className="nav-item-wrapper">
-                    <button 
-                      className={`nav-link-modern ${currentPage === item.id ? 'active' : ''} ${hoveredLink === item.id ? 'hovered' : ''}`}
-                      onClick={() => this.handleNavClick(item.id)}
-                      onMouseEnter={() => this.handleMouseEnter(item.id)}
-                      onMouseLeave={this.handleMouseLeave}
-                      title={item.label}
-                    >
-                      <i className={item.icon}></i>
-                      <span className="link-label">{item.label}</span>
-                      <div className="link-border"></div>
-                      <div className="link-glow"></div>
-                      <div className="link-dot"></div>
-                    </button>
+                    {item.id === 'cart' ? (
+                      // Cart button with count
+                      <button 
+                        className={`nav-link-modern ${currentPage === item.id ? 'active' : ''} ${hoveredLink === item.id ? 'hovered' : ''}`}
+                        onClick={toggleCart}
+                        onMouseEnter={() => this.handleMouseEnter(item.id)}
+                        onMouseLeave={this.handleMouseLeave}
+                        title={item.label}
+                      >
+                        <i className={item.icon}></i>
+                        {cartItemCount > 0 && (
+                          <span className="cart-count-badge">{cartItemCount}</span>
+                        )}
+                        <span className="link-label">{item.label}</span>
+                        <div className="link-border"></div>
+                        <div className="link-glow"></div>
+                        <div className="link-dot"></div>
+                      </button>
+                    ) : (
+                      // Regular nav button
+                      <button 
+                        className={`nav-link-modern ${currentPage === item.id ? 'active' : ''} ${hoveredLink === item.id ? 'hovered' : ''}`}
+                        onClick={() => this.handleNavClick(item.id)}
+                        onMouseEnter={() => this.handleMouseEnter(item.id)}
+                        onMouseLeave={this.handleMouseLeave}
+                        title={item.label}
+                      >
+                        <i className={item.icon}></i>
+                        <span className="link-label">{item.label}</span>
+                        <div className="link-border"></div>
+                        <div className="link-glow"></div>
+                        <div className="link-dot"></div>
+                      </button>
+                    )}
                     
                     <div className={`nav-tooltip ${hoveredLink === item.id ? 'show' : ''}`}>
-                      {item.label}
+                      {item.label} {item.id === 'cart' && cartItemCount > 0 ? `(${cartItemCount})` : ''}
                     </div>
                   </div>
                 ))}
@@ -144,10 +170,29 @@ class Navbar extends Component {
                 </form>
               </div>
 
+              {/* Cart Button (Desktop) */}
+              <div className="cart-wrapper desktop-only">
+                <button 
+                  className={`nav-icon-btn-modern ${hoveredLink === 'cart' ? 'heartbeat' : ''}`}
+                  onClick={toggleCart}
+                  onMouseEnter={() => this.handleMouseEnter('cart')}
+                  onMouseLeave={this.handleMouseLeave}
+                  title="Cart"
+                >
+                  <i className="fas fa-shopping-cart"></i>
+                  {cartItemCount > 0 && (
+                    <span className="icon-badge">
+                      {cartItemCount > 99 ? '99+' : cartItemCount}
+                    </span>
+                  )}
+                </button>
+                
+              </div>
+
               {/* Wishlist Button */}
               <div className="wishlist-wrapper">
                 <button 
-                  className={`nav-icon-btn-modern  ${currentPage === 'wishlist' ? 'active' : ''} ${hoveredLink === 'wishlist' ? 'heartbeat' : ''}`}
+                  className={`nav-icon-btn-modern ${currentPage === 'wishlist' ? 'active' : ''} ${hoveredLink === 'wishlist' ? 'heartbeat' : ''}`}
                   onClick={() => this.handleNavClick('wishlist')}
                   onMouseEnter={() => this.handleMouseEnter('wishlist')}
                   onMouseLeave={this.handleMouseLeave}
