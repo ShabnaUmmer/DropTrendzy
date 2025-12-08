@@ -34,10 +34,64 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    // Set current page based on URL
+    this.setPageFromURL();
+    
+    // Listen for browser back/forward buttons
+    window.addEventListener('popstate', this.handlePopState);
+    
     await this.loadProductsFromShopify();
     this.updateWishlistCount();
     this.loadCartFromStorage();
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.handlePopState);
+  }
+
+  // NEW: Detect page from URL
+  setPageFromURL = () => {
+    const path = window.location.pathname;
+    console.log('Current path:', path);
+    
+    // Map URL paths to page names
+    const pathToPage = {
+      '/': 'home',
+      '/home': 'home',
+      '/privacy-policy': 'privacy-policy',
+      '/terms-conditions': 'terms-conditions',
+      '/shipping-policy': 'shipping-policy',
+      '/refund-policy': 'refund-policy',
+      '/contact-us': 'contact',
+      '/products': 'products',
+      '/about': 'about',
+      '/wishlist': 'wishlist',
+      '/cart': 'cart'
+    };
+    
+    // Check for product detail URLs
+    if (path.startsWith('/product/')) {
+      const productId = path.replace('/product/', '');
+      this.setState({ 
+        currentPage: 'product-detail',
+        pageData: productId
+      });
+      return;
+    }
+    
+    const page = pathToPage[path] || 'home';
+    console.log('Setting page to:', page);
+    
+    this.setState({ 
+      currentPage: page,
+      pageData: null
+    });
+  };
+
+  // NEW: Handle browser back/forward buttons
+  handlePopState = () => {
+    this.setPageFromURL();
+  };
 
   // Load cart from localStorage
   loadCartFromStorage = () => {
@@ -290,8 +344,30 @@ class App extends Component {
     }
   };
 
+  // UPDATED: navigateTo with URL updating
   navigateTo = (page, data = null) => {
     console.log(`Navigating to: ${page}`, data);
+    
+    // Map page names to URL paths
+    const pageToPath = {
+      'home': '/',
+      'privacy-policy': '/privacy-policy',
+      'terms-conditions': '/terms-conditions',
+      'shipping-policy': '/shipping-policy',
+      'refund-policy': '/refund-policy',
+      'contact': '/contact-us',
+      'products': '/products',
+      'about': '/about',
+      'wishlist': '/wishlist',
+      'cart': '/cart',
+      'product-detail': data ? `/product/${data}` : '/products'
+    };
+    
+    const path = pageToPath[page] || '/';
+    
+    // Update browser URL without reloading page
+    window.history.pushState({ page, data }, '', path);
+    
     this.setState({ 
       currentPage: page,
       pageData: data,
