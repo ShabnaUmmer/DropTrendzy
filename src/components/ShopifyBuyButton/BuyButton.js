@@ -66,7 +66,7 @@ class ShopifyBuyButton extends Component {
       <div className="shopify-buy-button-container">
         {price && (
           <div className="product-price-display">
-            ${parseFloat(price).toFixed(2)}
+            INR {parseFloat(price).toFixed(2)}
           </div>
         )}
         

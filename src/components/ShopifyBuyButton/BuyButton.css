@@ -1,3 +1,84 @@
+.shopify-buy-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-price-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  padding: 0.5rem;
+  background: var(--card-bg);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+
+.shopify-buy-button {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow);
+  width: 100%;
+}
+
+.shopify-buy-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: var(--glow), 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.shopify-buy-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.shopify-buy-button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.shopify-buy-button.loading .loading-spinner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+.shopify-buy-error {
+  text-align: center;
+  padding: 1rem;
+  color: var(--danger-color);
+  background: rgba(255, 71, 87, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.shopify-buy-button.primary {
+  background: var(--primary-gradient);
+}
+
+.shopify-buy-button.secondary {
+  background: var(--secondary-gradient);
+}
+
+.shopify-buy-button.success {
+  background: var(--success-gradient);
+}
+
 .cart-note {
   display: flex;
   align-items: center;

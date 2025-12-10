@@ -432,9 +432,9 @@ class ProductDetail extends Component {
 
             <div className="product-pricing">
               <div className="price-display">
-                <span className="current-price">${this.formatPrice(price)}</span>
+                <span className="current-price">INR {this.formatPrice(price)}</span>
                 {comparePrice && comparePrice > price && (
-                  <span className="compare-price">${this.formatPrice(comparePrice)}</span>
+                  <span className="compare-price">INR {this.formatPrice(comparePrice)}</span>
                 )}
               </div>
               
@@ -442,7 +442,7 @@ class ProductDetail extends Component {
                 <div className="discount-display">
                   <span className="save-amount">
                     <i className="fas fa-badge-percent"></i>
-                    Save ${this.formatPrice(comparePrice - price)} ({discount}%)
+                    Save INR {this.formatPrice(comparePrice - price)} ({discount}%)
                   </span>
                 </div>
               )}
@@ -507,7 +507,7 @@ class ProductDetail extends Component {
                 <i className="fas fa-shipping-fast"></i>
                 <div>
                   <strong>Free Shipping</strong>
-                  <span>Over $100</span>
+                  <span>Over INR 100</span>
                 </div>
               </div>
               <div className="trust-badge">

@@ -120,9 +120,9 @@ class ProductCard extends Component {
           <h3 className="product-title">{product.title}</h3>
           
           <div className="product-pricing">
-            <span className="current-price">${price}</span>
+            <span className="current-price">INR {price}</span>
             {compareAtPrice && (
-              <span className="compare-at-price">${compareAtPrice}</span>
+              <span className="compare-at-price">INR {compareAtPrice}</span>
             )}
           </div>
 
