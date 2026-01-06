@@ -193,7 +193,7 @@ class CartPage extends Component {
               
               <div className="summary-row total">
                 <span>Estimated Total</span>
-                <span className="total-amount">${this.formatPrice(cartTotal)}</span>
+                <span className="total-amount">INR {this.formatPrice(cartTotal)}</span>
               </div>
             </div>
 
@@ -252,5 +252,6 @@ class CartPage extends Component {
     );
   }
 }
+
 
 export default CartPage;
