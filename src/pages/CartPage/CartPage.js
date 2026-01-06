@@ -127,7 +127,7 @@ class CartPage extends Component {
                         )}
                       </h3>
                       <p className="cart-item-variant">{item.variantTitle}</p>
-                      <p className="cart-item-price">${this.formatPrice(item.price)} each</p>
+                      <p className="cart-item-price">INR {this.formatPrice(item.price)} each</p>
                       
                       <div className="cart-item-actions">
                         <div className="quantity-controls">
@@ -161,7 +161,7 @@ class CartPage extends Component {
 
                   <div className="cart-item-right">
                     <div className="cart-item-total">
-                      ${this.formatPrice(parseFloat(item.price) * item.quantity)}
+                      INR {this.formatPrice(parseFloat(item.price) * item.quantity)}
                     </div>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ class CartPage extends Component {
             <div className="summary-details">
               <div className="summary-row">
                 <span>Subtotal ({itemCount} items)</span>
-                <span>${this.formatPrice(cartTotal)}</span>
+                <span>INR {this.formatPrice(cartTotal)}</span>
               </div>
               <div className="summary-row">
                 <span>Shipping</span>
