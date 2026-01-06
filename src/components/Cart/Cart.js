@@ -63,7 +63,7 @@ const Cart = ({
                     <div className="cart-item-details">
                       <h4 className="cart-item-title">{item.title}</h4>
                       <p className="cart-item-variant">{item.variantTitle}</p>
-                      <p className="cart-item-price">${formatPrice(item.price)}</p>
+                      <p className="cart-item-price">INR {formatPrice(item.price)}</p>
                       
                       <div className="cart-item-actions">
                         <div className="quantity-controls mini">
@@ -100,7 +100,7 @@ const Cart = ({
                 <div className="cart-totals">
                   <div className="cart-subtotal">
                     <span>Subtotal</span>
-                    <span>${formatPrice(cartTotal)}</span>
+                    <span>INR {formatPrice(cartTotal)}</span>
                   </div>
                   <p className="cart-tax-note">Taxes and shipping calculated at checkout</p>
                 </div>
@@ -111,7 +111,7 @@ const Cart = ({
                     onClick={handleCheckout}
                   >
                     <i className="fas fa-lock"></i>
-                    Checkout (${formatPrice(cartTotal)})
+                    Checkout (INR {formatPrice(cartTotal)})
                   </button>
                   
                   <button
@@ -142,5 +142,6 @@ const Cart = ({
     </>
   );
 };
+
 
 export default Cart;
